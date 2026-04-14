@@ -1,6 +1,6 @@
 CREATE TABLE subscriptions (
     id SERIAL PRIMARY KEY,
-    name TEXT NOT NULL,
+    service_name TEXT NOT NULL,
     price INTEGER NOT NULL,
     user_id UUID NOT NULL,
     start_date DATE NOT NULL,

@@ -1,0 +1,127 @@
+definitions:
+  model.Subscription:
+    properties:
+      end_date:
+        type: string
+      id:
+        type: integer
+      price:
+        type: integer
+      service_name:
+        type: string
+      start_date:
+        type: string
+      user_id:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /subscriptions:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      summary: Get all subscriptions
+      tags:
+      - subscriptions
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: subscription
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/model.Subscription'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+      summary: Create subscription
+      tags:
+      - subscriptions
+  /subscriptions/{id}:
+    delete:
+      parameters:
+      - description: subscription id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "204":
+          description: No Content
+      summary: Delete subscription
+      tags:
+      - subscriptions
+    get:
+      parameters:
+      - description: subscription id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      summary: Get subscription by ID
+      tags:
+      - subscriptions
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: subscription id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: subscription
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/model.Subscription'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      summary: Update subscription
+      tags:
+      - subscriptions
+  /subscriptions/summary:
+    get:
+      parameters:
+      - description: user id
+        in: query
+        name: user_id
+        type: string
+      - description: service name
+        in: query
+        name: service_name
+        type: string
+      - description: from date
+        in: query
+        name: from
+        type: string
+      - description: to date
+        in: query
+        name: to
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      summary: Get total sum
+      tags:
+      - subscriptions
+swagger: "2.0"
