@@ -1,8 +1,6 @@
 package handler
 
 import (
-	"database/sql"
-	"errors"
 	"fmt"
 	"net/http"
 	"subscriptions-service/internal/logger"
@@ -83,7 +81,7 @@ func (h *SubscriptionHandler) GetByID(c *gin.Context) {
 
 	sub, err := h.service.GetByID(id)
 	if err != nil {
-		c.JSON(404, gin.H{"error": err.Error()})
+		c.JSON(404, gin.H{"error": "Subscription not found"})
 		return
 	}
 
@@ -116,9 +114,9 @@ func (h *SubscriptionHandler) Update(c *gin.Context) {
 
 	err := h.service.Update(sub)
 	if err != nil {
-		c.JSON(500, gin.H{"error": err.Error()})
-		return
-	}
+        c.JSON(404, gin.H{"error": "Subscription not found"})
+        return
+    }
 
 	c.Status(200)
 }
@@ -138,14 +136,9 @@ func (h *SubscriptionHandler) Delete(c *gin.Context) {
 
 	err := h.service.Delete(id)
 	if err != nil {
-    if errors.Is(err, sql.ErrNoRows) {
-        c.JSON(404, gin.H{"error": "not found"})
+        c.JSON(404, gin.H{"error": "Subscription not found"})
         return
     }
-
-    c.JSON(500, gin.H{"error": "internal error"})
-    return
-}
 
 	c.Status(204)
 }

@@ -42,6 +42,16 @@ func (s *SubscriptionService) GetByID(id int) (model.Subscription, error) {
 
 func (s *SubscriptionService) Update(sub model.Subscription) error {
 	logger.Log.Info("Update service called", zap.String("service", sub.ServiceName))
+	_, err := s.repo.GetByID(sub.ID)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			logger.Log.Warn("subscription not found", zap.Int("id", sub.ID))
+			return errors.New("not found")
+		}
+
+		logger.Log.Error("db error", zap.Error(err))
+		return err
+	}
 	return s.repo.Update(sub)
 }
 
